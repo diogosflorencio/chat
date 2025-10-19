@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="assets/icone.png" type="image/x-icon">
     <title>Escrevo!</title>
-
+  
     <style>
       body {
         background-color: #000000;
@@ -46,7 +47,6 @@
         
         align-content: center;
         padding: 7px 8px 8px 10px;
-        width: 98%;
         overflow-wrap: anywhere;
 
         
@@ -88,6 +88,7 @@
         
       }
       #msg-usuario{
+        
         display: flex;
         justify-content: end;
         background-color: #000000a6;
@@ -96,9 +97,29 @@
         margin-bottom: 5px;
         border-radius: 5px;
         padding: 7px 8px 8px 10px;
-        width: 98%;
         overflow-wrap: anywhere;
+        max-width: 500px;
+        margin-left: auto; 
+        margin-right: 0;
+        text-align: right;
       }
+      #msg-outros{
+        
+        display: flex;
+        justify-content: start;
+        background-color: #000000a6;
+
+        font-size: smaller;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        padding: 7px 8px 8px 10px;
+        overflow-wrap: anywhere;
+        max-width: 500px;
+        margin-left: auto; 
+        margin-left: 0;
+        text-align: left;
+      }
+      
 
     </style>
   </head>
@@ -132,22 +153,27 @@
     if(localStorage.getItem("nomeDeUsuario")){
       nome = localStorage.getItem("nomeDeUsuario")
     }else{
-      let numeroUsuario = Math.round(Math.random()*100)
-      nome = window.prompt("Digite seu nome: ", `Usuario_aleatorio_${numeroUsuario}`);   
-      localStorage.setItem("nomeDeUsuario", nome)   
+      const nomesUsuarios = [
+        "shueki", "pikachu","Ratinho", "Silvio Santos", "Seu Madruga",
+        "Jacaré", "Capivara", "Tubarão", "Dragão", "HackerMan","Katy Perry", "Harry Potter", "Bicho Papão", "Bob Esponja",
+        "Zé", "Cleiton do Pneu", "Ednaldo Pereira", "Suco de laranja"
+      ];
+      let numeroUsuario = Math.round(Math.random()*18)
+      nome = window.prompt("Digite seu nome: ", `${nomesUsuarios[numeroUsuario]}`);   
+      (nome == null) ? nome = "Você não escolheu um nome e não tinha nome aleatorios pra vc" : localStorage.setItem("nomeDeUsuario", nome)   
     }
     
     
     // conecta ao backend
-    const ws = new WebSocket("wss://clear-maggy-chat-diogo-11b743c1.koyeb.app/")
+    const ws = new WebSocket("ws://clear-maggy-chat-diogo-11b743c1.koyeb.app/")
     
     // verifica conexão com servidor e se usuario entrou e saiu
     ws.onopen = () => {
       // ws.send("servidor: "+ nome + " está conectado!")
-      ws.send(`<p><b>${nome}</b> entrou na sala!</p>`)
+      ws.send(`${nome} entrou na sala!`)
     }
     ws.onclose = () => {
-      ws.send(`<p><b>${nome}</b> saiu na sala!</p>`)
+      ws.send(`${nome} saiu na sala!`)
     }
     // cria função responsável por enviar mensagem do usuario
     function enviar(msg){
@@ -182,16 +208,17 @@
       }
     
       
-    // Adiciona cada mensagem na tela
-    mensagens.forEach((msg) => {
-      console.log(nome)
-      if(msg.startsWith(nome + ': ')){
-        mensagem.innerHTML += `<div id="msg-usuario"> ${msg}</div>`
-      }else if (msg.startsWith("servidor")) {
-        mensagem.innerHTML += `<div id="mensagem-log"> ${msg}</div>`
-      } else {
-        mensagem.innerHTML += `<div id="mensagens"> ${msg}</div>`
-      }
+      // Adiciona cada mensagem na tela
+      mensagens.forEach((msg) => {
+        console.log(nome)
+        if(msg.startsWith(nome + ': ')){
+          mensagemFiltrada = msg.slice(nome.length + 2) // fiz um fateamento pra parar de exibir o nome de usuario de quem ta enviando pq é desnecessario
+          mensagem.innerHTML += `<div id="msg-usuario"> ${mensagemFiltrada}</div>`
+        }else if (msg.endsWith("sala!")) {
+          mensagem.innerHTML += `<div id="mensagem-log"> ${msg}</div>`
+        } else {
+          mensagem.innerHTML += `<div id="msg-outros"> ${msg}</div>` //adição de tag pra css organizar tudo | identando as mensagens corretamente
+        }
       
     }
   )
