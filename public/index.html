@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Escrevo!</title>
+
+    <style>
+      body {
+        background-color: #000000;
+        color: rgb(207, 207, 207);
+        font-family:  Helvetica, sans-serif;
+      }
+      h1 {
+        text-align: center;
+        font-size: 25px;
+        font-family: monospace;
+        color: rgb(129, 12, 12);
+      }
+      h3 {
+        text-align: center;
+        font-size: 10px;
+        font-family: monospace;
+        color: rgb(104, 129, 12);
+      }
+      #usuario{
+        margin: auto 10px;
+      }
+      #mensagem{
+        border: solid white 1px;
+        height: 470px;
+        margin: 0 auto;
+        background-color: #0f0f0f;
+        max-width: 1000px;
+        border-radius: 2px;
+        padding: 10px;
+        overflow-y: scroll;
+
+      }
+      #mensagens{
+        font-size: smaller;
+
+        margin-bottom: 5px;
+        background-color: #000000a6;
+        border-radius: 5px;
+        
+        align-content: center;
+        padding: 7px 8px 8px 10px;
+        width: 98%;
+        overflow-wrap: anywhere;
+        
+      }
+      #inputs{
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        gap: 5px;
+      }
+      #input-mensagem {
+        height: 30px;
+        width: 100%;
+        max-width: 365px;
+        border-radius: 20px;
+        padding: 0 10px;
+        
+      }
+      #input-mensagem:focus {
+        outline: none;
+        
+      }
+      #botao-enviar{
+        border-radius: 20px;
+        width: 100px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1>Essa aplicação é um experimento com WebSocketServer</h1>
+    <h3>(estou desenvolvendo. a interface ta pessima, mas é isso. é um projetinho pra fazer aos poucos e sempre)</h3>
+    <section>
+      <div id="usuario">
+        
+      </div>
+    </section>
+
+    <section">
+      <div id="mensagem"></div>
+    </section>
+
+    <section id="inputs">
+      <input type="text" id="input-mensagem" maxlength="200">
+      <button id="botao-enviar">Enviar</button>
+    </section>
+
+    <script>
+    // cria variaveis de elementos do dom
+    let usuario = document.getElementById('usuario');
+    let botao = document.getElementById("botao-enviar");
+    let input = document.getElementById('input-mensagem');
+    let mensagem = document.getElementById('mensagem')
+
+    
+    // pega o nome do usuario, se não tiver no localstarage
+    if(localStorage.getItem("nomeDeUsuario")){
+      nome = localStorage.getItem("nomeDeUsuario")
+    }else{
+      let numeroUsuario = Math.round(Math.random()*100)
+      nome = window.prompt("Digite seu nome: ", `Usuario aleatorio nº ${numeroUsuario}`);   
+      localStorage.setItem("nomeDeUsuario", nome)   
+    }
+    
+    
+    // conecta ao backend
+    const ws = new WebSocket("wss://chat-server-yxjn.onrender.com")
+    // verifica conexão com servidor
+    ws.onopen = () => {
+      ws.send("servidor: "+ nome + ", você está conectado!")
+      usuario.innerHTML = `<p><span style="font-family: monospace; font-size: 16px; color: red;">servidor:</span> <b>${nome}</b> você está conectado!</p>`
+    }
+    
+    // cria função responsável por enviar mensagem do usuario
+    function enviar(msg){
+      ws.send(`${nome}: ${msg}`);
+    }
+    
+    // add um listening no botão pra enviar
+    botao.addEventListener("click", () => enviar(input.value))
+    input.addEventListener("keydown", (evento) =>{
+      if (evento.key ==="Enter") {
+        enviar(input.value);
+        input.value = ""
+      }
+
+    })
+
+    ws.onmessage = (event) => {
+    const data = event.data; // texto recebido do servidor
+    let mensagens = [];
+
+    // Tenta transformar o texto em objeto json
+    try {
+      const obj = JSON.parse(data);
+
+      // Se o objeto tem um array de mensagens, usa ele
+      if (Array.isArray(obj.mensagens)) {
+        mensagens = obj.mensagens;
+      } 
+    } catch {
+      // se não for JSON, usa o texto original
+      mensagens = [data];
+    }
+
+    // Adiciona cada mensagem na tela
+    mensagens.forEach((msg) => {
+      mensagem.innerHTML += `<div id="mensagens"> ${msg}</div>`
+    });
+
+    // dá scroll para a última mensagem aparecer
+    mensagem.scrollTop = mensagem.scrollHeight;
+
+  };
+
+    </script>
+  </body>
+  </html>
+  
