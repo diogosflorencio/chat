@@ -48,6 +48,7 @@
         padding: 7px 8px 8px 10px;
         width: 98%;
         overflow-wrap: anywhere;
+
         
       }
       #inputs{
@@ -71,6 +72,32 @@
       #botao-enviar{
         border-radius: 20px;
         width: 100px;
+      }
+      #mensagem-log {
+        margin: 0 auto;
+        width: 300px;
+        display: flex;
+        justify-content: center;
+        background-color: rgb(82, 7, 7);
+
+        font-size: smaller;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        padding: 7px 8px 8px 10px;
+        overflow-wrap: anywhere;
+        
+      }
+      #msg-usuario{
+        display: flex;
+        justify-content: end;
+        background-color: #000000a6;
+
+        font-size: smaller;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        padding: 7px 8px 8px 10px;
+        width: 98%;
+        overflow-wrap: anywhere;
       }
 
     </style>
@@ -106,19 +133,22 @@
       nome = localStorage.getItem("nomeDeUsuario")
     }else{
       let numeroUsuario = Math.round(Math.random()*100)
-      nome = window.prompt("Digite seu nome: ", `Usuario aleatorio nº ${numeroUsuario}`);   
+      nome = window.prompt("Digite seu nome: ", `Usuario_aleatorio_${numeroUsuario}`);   
       localStorage.setItem("nomeDeUsuario", nome)   
     }
     
     
     // conecta ao backend
     const ws = new WebSocket("wss://clear-maggy-chat-diogo-11b743c1.koyeb.app/")
-    // verifica conexão com servidor
-    ws.onopen = () => {
-      ws.send("servidor: "+ nome + ", você está conectado!")
-      usuario.innerHTML = `<p><span style="font-family: monospace; font-size: 16px; color: red;">servidor:</span> <b>${nome}</b> você está conectado!</p>`
-    }
     
+    // verifica conexão com servidor e se usuario entrou e saiu
+    ws.onopen = () => {
+      // ws.send("servidor: "+ nome + " está conectado!")
+      ws.send(`<p><b>${nome}</b> entrou na sala!</p>`)
+    }
+    ws.onclose = () => {
+      ws.send(`<p><b>${nome}</b> saiu na sala!</p>`)
+    }
     // cria função responsável por enviar mensagem do usuario
     function enviar(msg){
       ws.send(`${nome}: ${msg}`);
@@ -131,37 +161,47 @@
         enviar(input.value);
         input.value = ""
       }
-
+      
     })
-
-    ws.onmessage = (event) => {
-    const data = event.data; // texto recebido do servidor
-    let mensagens = [];
-
-    // Tenta transformar o texto em objeto json
-    try {
-      const obj = JSON.parse(data);
-
-      // Se o objeto tem um array de mensagens, usa ele
-      if (Array.isArray(obj.mensagens)) {
-        mensagens = obj.mensagens;
-      } 
-    } catch {
-      // se não for JSON, usa o texto original
-      mensagens = [data];
-    }
     
-
+    ws.onmessage = (event) => {
+      const data = event.data; // texto recebido do servidor
+      let mensagens = [];
+      
+      // Tenta transformar o texto em objeto json
+      try {
+        const obj = JSON.parse(data);
+        
+        // Se o objeto tem um array de mensagens, usa ele
+        if (Array.isArray(obj.mensagens)) {
+          mensagens = obj.mensagens;
+        } 
+      } catch {
+        // se não for JSON, usa o texto original
+        mensagens = [data];
+      }
+    
+      
     // Adiciona cada mensagem na tela
     mensagens.forEach((msg) => {
-      mensagem.innerHTML += `<div id="mensagens"> ${msg}</div>`
-    });
+      console.log(nome)
+      if(msg.startsWith(nome + ': ')){
+        mensagem.innerHTML += `<div id="msg-usuario"> ${msg}</div>`
+      }else if (msg.startsWith("servidor")) {
+        mensagem.innerHTML += `<div id="mensagem-log"> ${msg}</div>`
+      } else {
+        mensagem.innerHTML += `<div id="mensagens"> ${msg}</div>`
+      }
+      
+    }
+  )
+  
+  // dá scroll para a última mensagem aparecer
+  mensagem.scrollTop = mensagem.scrollHeight;
+  
+};
 
-    // dá scroll para a última mensagem aparecer
-    mensagem.scrollTop = mensagem.scrollHeight;
-
-  };
-
+    usuario.innerHTML = `<p><span style="font-family: monospace; font-size: 16px; color: red; ">servidor:</span> <b>${nome}</b>, você está conectado!</p>`
     </script>
   </body>
   </html>
