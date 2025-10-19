@@ -112,7 +112,7 @@
     
     
     // conecta ao backend
-    const ws = new WebSocket("wss://chat-server-yxjn.onrender.com")
+    const ws = new WebSocket("wss://clear-maggy-chat-diogo-11b743c1.koyeb.app/")
     // verifica conexão com servidor
     ws.onopen = () => {
       ws.send("servidor: "+ nome + ", você está conectado!")
@@ -150,6 +150,7 @@
       // se não for JSON, usa o texto original
       mensagens = [data];
     }
+    
 
     // Adiciona cada mensagem na tela
     mensagens.forEach((msg) => {
