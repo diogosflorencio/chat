@@ -175,6 +175,13 @@
     ws.onopen = () => {
       // ws.send("servidor: "+ nome + " está conectado!")
       ws.send(`${nome} entrou na sala!`)
+
+      // manda pings pro servidor pra manter a conexão por mais de 60 segundos
+      setInterval(function(){
+        if(ws.readyState === WebSocket.OPEN) {
+          ws.send("ping")
+        }
+      },55000)
     }
     ws.onclose = () => {
       ws.send(`${nome} saiu na sala!`)
