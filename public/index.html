@@ -169,7 +169,8 @@
     
     
     // conecta ao backend
-    const ws = new WebSocket("ws://localhost:8080")
+    // const ws = new WebSocket("ws://localhost:8080") // testes
+    const ws = new WebSocket("wss://clear-maggy-chat-diogo-11b743c1.koyeb.app/")
     
     // verifica conexão com servidor e se usuario entrou e saiu
     ws.onopen = () => {
