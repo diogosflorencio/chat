@@ -29,15 +29,40 @@
       }
       #mensagem{
         border: solid white 1px;
-        height: 470px;
+        /* height: 470px; */
+        height: 70vh;
         margin: 0 auto;
         background-color: #0f0f0f;
-        max-width: 1000px;
+        /* max-width: 1000px; */
+        max-width: 70vw;
         border-radius: 2px;
         padding: 10px;
         overflow-y: scroll;
+        
+        
+        scrollbar-width: thin;
+         scrollbar-color: #00ff00 #1a1a1a;
+          
+        }
 
-      }
+        #mensagem::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        #mensagem::-webkit-scrollbar-track {
+          background: #1a1a1a; 
+          border-radius: 5px;
+        }
+
+        #mensagem::-webkit-scrollbar-thumb {
+          background-color: green;
+          border-radius: 5px;
+          border: 1px solid #0f0f0f;
+        }
+
+        #mensagem::-webkit-scrollbar-thumb:hover {
+          background-color: green;
+        }
       #mensagens{
         font-size: smaller;
 
@@ -123,6 +148,23 @@
         color: green;
         width: fit-content;
       }
+      @media (max-width: 500px) {
+        #mensagem{
+        border: solid white 1px;
+        /* height: 470px; */
+        height: 65vh;
+        margin: 0 auto;
+        background-color: #0f0f0f;
+        /* max-width: 1000px; */
+        max-width: 95vw;
+        border-radius: 2px;
+        padding: 10px;
+        overflow-y: scroll;
+
+      }
+
+        
+      }
       
 
     </style>
@@ -138,6 +180,7 @@
 
     <section">
       <div id="mensagem"></div>
+      
     </section>
 
     <section id="inputs">
@@ -193,7 +236,10 @@
     }
     
     // add um listening no botão pra enviar
-    botao.addEventListener("click", () => enviar(input.value))
+    botao.addEventListener("click", () => {
+      enviar(input.value)
+      input.value = ""
+    })
     input.addEventListener("keydown", (evento) =>{
       if (evento.key ==="Enter") {
         enviar(input.value);
@@ -222,7 +268,6 @@
       
       // Adiciona cada mensagem na tela
       mensagens.forEach((msg) => {
-        console.log(nome)
         if(msg.startsWith(nome + ': ') && !msg.endsWith("/limpar")){
           mensagemFiltrada = msg.slice(nome.length + 2) // fiz um fateamento pra parar de exibir o nome de usuario de quem ta enviando pq é desnecessario
           mensagem.innerHTML += `<div id="msg-usuario"> ${mensagemFiltrada}</div>`
