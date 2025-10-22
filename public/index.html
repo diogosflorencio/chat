@@ -80,13 +80,13 @@
         display: flex;
         justify-content: center;
         padding: 10px;
-        gap: 5px;
+        gap: 3px;
       }
       #input-mensagem {
         height: 30px;
         width: 100%;
-        max-width: 365px;
-        border-radius: 20px;
+        max-width: 25vw;
+        border-radius: 0px 20px 20px 0px;
         padding: 0 10px;
         
       }
@@ -94,9 +94,32 @@
         outline: none;
         
       }
+      #input-usuario {
+        height: 30px;
+        width: 100%;
+        max-width: 6vw;
+        border-radius: 20px 0 0 20px;
+        padding: 0 10px;
+        
+      }
+      
+      #input-usuario:focus {
+        outline: none;
+        
+      }
       #botao-enviar{
         border-radius: 20px;
         width: 100px;
+        height: 35px;
+      }
+      #botao-arquivo{
+        width: 10px;
+        margin:6px;
+        
+      }
+      #botao-arquivo-imagem{
+        width: 15px;
+
       }
       #mensagem-log {
         margin: 0 auto;
@@ -160,12 +183,8 @@
         border-radius: 2px;
         padding: 10px;
         overflow-y: scroll;
-
+          }
       }
-
-        
-      }
-      
 
     </style>
   </head>
@@ -184,13 +203,21 @@
     </section>
 
     <section id="inputs">
-      <input type="text" id="input-mensagem" maxlength="200">
+
+      
+      <input placeholder="@Usuario" ="text" id="input-usuario" maxlength="20">
+      <input type="text" id="input-mensagem" maxlength="1000" >
+
+      <input type="file" id="seletorImagem" accept="image/*" style="display: none;">
+
+      <div id="botao-arquivo"><img id="botao-arquivo-imagem" src="assets/image.png" alt=""></div>
       <button id="botao-enviar">Enviar</button>
     </section>
 
     <script>
     // cria variaveis de elementos do dom
     let usuario = document.getElementById('usuario');
+    let inputUsuario = document.getElementById('input-usuario');
     let botao = document.getElementById("botao-enviar");
     let input = document.getElementById('input-mensagem');
     let mensagem = document.getElementById('mensagem')
@@ -199,16 +226,32 @@
     // pega o nome do usuario, se não tiver no localstarage
     if(localStorage.getItem("nomeDeUsuario")){
       nome = localStorage.getItem("nomeDeUsuario")
+
     }else{
       const nomesUsuarios = [
-        "shueki", "pikachu","Ratinho", "Silvio Santos", "Seu Madruga",
-        "Jacaré", "Capivara", "Tubarão", "Dragão", "HackerMan","Katy Perry", "Harry Potter", "Bicho Papão", "Bob Esponja",
-        "Zé", "Cleiton do Pneu", "Ednaldo Pereira", "Suco de laranja"
-      ];
+      "Sheldon Cooper", "Penny", "Leonard Hofstadter", "Raj Koothrappali", "Howard Wolowitz",
+      "Michael Scott", "Dwight Schrute", "Jim Halpert", "Pam Beesly", "Barack Obama",
+      "Rick Sanchez", "Morty Smith", 
+      "Walter White", "Jesse Pinkman", "Saul Goodman", "Goku",
+      "Homer Simpson", "Bart Simpson", "Lisa Simpson", "Marge Simpson","Forrest Gump", "Buzz Lightyear", "Woody",
+      "Seu Madruga", "Chiquinha", "Harry Potter", "Elon Musk", "Hércules",
+      "Felipe Neto", "Neil Armstrong", "Chapolin Colorado", "Darth Vader", "Indiana Jones",
+      "Mochileiro da Galáxia", "Lula Molusco", "Dona Florinda", "Tony Stark", "Cleópatra","Naruto Uzumaki", "Yoda", "Albert Einstein", "Lady Gaga"
+    ];
+
       let numeroUsuario = Math.round(Math.random()*18)
       nome = window.prompt("Digite seu nome: ", `${nomesUsuarios[numeroUsuario]}`);   
-      (nome == null) ? nome = "Você não escolheu um nome e não tinha nome aleatorios pra vc" : localStorage.setItem("nomeDeUsuario", nome)   
+      (nome == null) ? nome = "Sem nome" : localStorage.setItem("nomeDeUsuario", nome)   
     }
+
+    inputUsuario.value = `${nome}`
+
+    inputUsuario.addEventListener("change", () => {
+      nome = inputUsuario.value
+      localStorage.setItem("nomeDeUsuario",nome)
+      usuario.innerHTML = `<p><span style="font-family: monospace; font-size: 16px; color: red;">servidor:</span> <b>${nome}</b>, você está <span style="color:green">conectado!</span>!</p>`;
+
+    })
     
     
     // conecta ao backend
@@ -217,6 +260,8 @@
     
     // verifica conexão com servidor e se usuario entrou e saiu
     ws.onopen = () => {
+      usuario.innerHTML = `<p><span style="font-family: monospace; font-size: 16px; color: red; ">servidor:</span> <b>${nome}</b>, você está <span style="color:green">conectado!</span>!</p>`
+
       // ws.send("servidor: "+ nome + " está conectado!")
       ws.send(`${nome} entrou na sala!`)
 
@@ -225,10 +270,11 @@
         if(ws.readyState === WebSocket.OPEN) {
           ws.send("ping")
         }
-      },55000)
+      },50000)
     }
     ws.onclose = () => {
-      ws.send(`${nome} saiu na sala!`)
+      usuario.innerHTML = `<p><span style="font-family: monospace; font-size: 16px; color: red; ">servidor:</span> <b>${nome}</b>, você está <span style="color:red">desconectado! (reinicie a página)</span></p>`
+
     }
     // cria função responsável por enviar mensagem do usuario
     function enviar(msg){
@@ -237,12 +283,12 @@
     
     // add um listening no botão pra enviar
     botao.addEventListener("click", () => {
-      enviar(input.value)
+      input.value != "" ? enviar(input.value) : console.log("msg vaiz") 
       input.value = ""
     })
     input.addEventListener("keydown", (evento) =>{
       if (evento.key ==="Enter") {
-        enviar(input.value);
+        input.value != "" ? enviar(input.value) : console.log("msg vaiz") 
         input.value = ""
       }
       
@@ -256,7 +302,7 @@
       try {
         const obj = JSON.parse(data);
         
-        // Se o objeto tem um array de mensagens, usa ele
+        // Se o objeto tem um array de mensagens, usa ele (pq existe as mensagens e o historico de mensagens)
         if (Array.isArray(obj.mensagens)) {
           mensagens = obj.mensagens;
         } 
@@ -287,7 +333,6 @@
   
 };
 
-    usuario.innerHTML = `<p><span style="font-family: monospace; font-size: 16px; color: red; ">servidor:</span> <b>${nome}</b>, você está conectado!</p>`
     </script>
   </body>
   </html>
