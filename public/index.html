@@ -393,6 +393,8 @@ input.addEventListener("keydown", (evento) => {
       if (texto.toLowerCase().includes("/imagem")) {
         const url = texto.replace(/imagem/i, "").trim();
         enviar(`<img class="imagem-enviada" src="${url}" alt="imagem enviada" style="width:200px">`); 
+      } else if (texto.includes("/limpar")){
+      enviar(`${texto}`);
       } else {
         enviar(`${texto} ${tempoHTML}`);
       }
@@ -409,6 +411,8 @@ botao.addEventListener("click", () => {
     if (texto.toLowerCase().includes("/imagem")) {
       const url = texto.replace(/imagem/i, "").trim();
       enviar(`<img class="imagem-enviada" src="${url}" alt="imagem enviada" style="width:200px">`);
+    } else if (texto.includes("/limpar")){
+      enviar(`${texto}`);
     } else {
       enviar(`${texto} ${tempoHTML}`);
     }
