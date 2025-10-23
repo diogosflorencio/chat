@@ -379,6 +379,12 @@ modalImagem.addEventListener("click", () => {
   imagemModal.src = '';
 });
 
+let agora = new Date();
+let hora = agora.getHours().toString().padStart(2, "0");
+let minutos = agora.getMinutes().toString().padStart(2, "0");
+
+let tempoHTML = `<span style="font-size: 9px; color: #075e54; vertical-align: baseline; align-self:end; margin-left: 4px;">${hora}:${minutos}</span>`;
+
 
 input.addEventListener("keydown", (evento) => {
   if (evento.key === "Enter") {
@@ -388,7 +394,7 @@ input.addEventListener("keydown", (evento) => {
         const url = texto.replace(/imagem/i, "").trim();
         enviar(`<img class="imagem-enviada" src="${url}" alt="imagem enviada" style="width:200px">`); 
       } else {
-        enviar(texto);
+        enviar(`${texto} ${tempoHTML}`);
       }
     } else {
       console.log("msg vazia");
@@ -404,7 +410,7 @@ botao.addEventListener("click", () => {
       const url = texto.replace(/imagem/i, "").trim();
       enviar(`<img class="imagem-enviada" src="${url}" alt="imagem enviada" style="width:200px">`);
     } else {
-      enviar(texto);
+      enviar(`${texto} ${tempoHTML}`);
     }
   } else {
     console.log("msg vazia");
@@ -436,12 +442,12 @@ botao.addEventListener("click", () => {
       
       // Adiciona cada mensagem na tela
       mensagens.forEach((msg) => {
-        if(msg.startsWith(nome + ': ') && !msg.endsWith("/limpar")){
+        if(msg.startsWith(nome + ': ') && !msg.includes("/limpar")){
           mensagemFiltrada = msg.slice(nome.length + 2) // fiz um fateamento pra parar de exibir o nome de usuario de quem ta enviando pq é desnecessario
           mensagem.innerHTML += `<div id="msg-usuario"> ${mensagemFiltrada}</div>`
         }else if (msg.endsWith("sala!")) {
           mensagem.innerHTML += `<div id="mensagem-log"> ${msg}</div>`
-        } else if (msg.endsWith("/limpar")) {
+        } else if (msg.includes("/limpar")) {
           mensagem.innerHTML += `<div id="mensagem-log">o admin limpou o chat</div>`
         } else {
           mensagem.innerHTML += `<div id="msg-outros"> ${msg}</div>` //adição de tag pra css organizar tudo | identando as mensagens corretamente
