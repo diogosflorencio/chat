@@ -12,6 +12,7 @@
       background-color: #e8f1e3;
       color: #333;
       font-family: Helvetica, Arial, sans-serif;
+      position: relative;
     }
 
     h1 {
@@ -185,7 +186,35 @@
       width: fit-content;
       box-shadow: 0 1px 1px #ccc;
     }
-
+    #comandos{
+      position: absolute;
+      right: 5px;
+      top: 80px;
+    }
+    #comandos{
+      text-align: center;
+      font-size: 9px;
+      font-family: monospace;
+      color: #128c7e;
+      margin-top: 0;
+    }
+    @media (max-width: 1285px) {
+      #comandos{
+        font-size: 7px;
+    }
+   
+    }
+    @media (max-width: 1285px) {
+      #comandos{
+        font-size: 6px;
+    }
+    @media (max-width: 1000px) {
+      #comandos{
+        display: none;
+    }
+   
+   
+    }
     @media (max-width: 500px) {
       #mensagem {
         border: 1px solid #d9fdd3;
@@ -235,6 +264,16 @@
       <div id="mensagem"></div>
       
     </section>
+    <section id="comandos">
+      <ul>
+        <h3>comandos: </h3>
+        <li>/imagem + link - para enviar imagens</li>
+        <li>/limpar - excluir todas as mensagens</li>
+
+      </ul>
+    </section>
+
+
     <div id="modal-imagem" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80vw; height: 80vh; background-color: rgba(0, 0, 0, 0.9); z-index: 9999; border-radius: 8px; cursor: pointer; padding: 20px; box-sizing: border-box;">
       <img id="imagem-modal" src="" alt="" style="max-width: 100%; max-height: 100%; width: 500%; object-fit: contain; display: block; margin: auto;">
     </div>
@@ -345,7 +384,7 @@ input.addEventListener("keydown", (evento) => {
   if (evento.key === "Enter") {
     const texto = input.value.trim();
     if (texto !== "") {
-      if (texto.toLowerCase().includes("imagem")) {
+      if (texto.toLowerCase().includes("/imagem")) {
         const url = texto.replace(/imagem/i, "").trim();
         enviar(`<img class="imagem-enviada" src="${url}" alt="imagem enviada" style="width:200px">`); 
       } else {
@@ -361,7 +400,7 @@ input.addEventListener("keydown", (evento) => {
 botao.addEventListener("click", () => {
   const texto = input.value.trim();
   if (texto !== "") {
-    if (texto.toLowerCase().includes("imagem")) {
+    if (texto.toLowerCase().includes("/imagem")) {
       const url = texto.replace(/imagem/i, "").trim();
       enviar(`<img class="imagem-enviada" src="${url}" alt="imagem enviada" style="width:200px">`);
     } else {
