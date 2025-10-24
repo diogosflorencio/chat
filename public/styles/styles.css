@@ -1,0 +1,190 @@
+body {
+    background-color: #e8f1e3;
+    color: #333;
+    font-family: Helvetica, Arial, sans-serif;
+    position: relative;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 25px;
+    font-family: monospace;
+    color: #075e54;
+    margin-bottom: 5px;
+  }
+
+  h3 {
+    text-align: center;
+    font-size: 11px;
+    font-family: monospace;
+    color: #128c7e;
+    margin-top: 0;
+  }
+
+  #usuario {
+    margin: auto 10px;
+  }
+
+  #mensagem {
+    border: 1px solid #d9fdd3;
+    height: 70vh;
+    margin: 0 auto;
+    background-color: #e6dedea6;
+    background-image: url("assets/background.png"); 
+    background-repeat: repeat;
+    background-size: contain;
+    background-position: center;
+    max-width: 70vw;
+    border-radius: 8px;
+    padding: 10px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #25d366 #ffffff;
+    box-shadow: 0 0 8px #bdbdbd;
+  }
+
+  #mensagem::-webkit-scrollbar {
+    width: 3px;
+  }
+  #mensagem::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 5px;
+  }
+  #mensagem::-webkit-scrollbar-thumb {
+    background-color: #25d366;
+    border-radius: 5px;
+  }
+
+  #mensagens {
+    font-size: smaller;
+    margin-bottom: 5px;
+    border-radius: 7px;
+    align-content: center;
+    padding: 7px 10px;
+    overflow-wrap: anywhere;
+    background-color: #dcf8c6;
+  }
+
+  #inputs {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    gap: 2px;
+  }
+
+  #input-usuario {
+    height: 32px;
+    width: 100%;
+    max-width: 5vw;
+    border-radius: 20px 0 0 20px;
+    padding: 0 10px;
+    border: 1px solid #128c7e;
+    background-color: #fff;
+    color: #075e54;
+  }
+  #input-usuario:focus {
+    outline: 2px solid #25d366;
+  }
+
+  #input-mensagem {
+    height: 32px;
+    width: 100%;
+    max-width: 25vw;
+    border-radius: 0;
+    padding: 0 10px;
+    border: 1px solid #128c7e;
+    background-color: #fff;
+    color: #075e54;
+  }
+  #input-mensagem:focus {
+    outline: 2px solid #25d366;
+  }
+  
+  #botao-enviar {
+    border-radius: 0 20px 20px 0;
+    width: 100%;
+    height: 33.6px;
+    border: 1px solid #128c7e;
+    max-width: 5vw;
+    background-color: #128c7e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  #botao-enviar:hover {
+    background-color: #25d366;
+    outline: 2px solid #25d366;
+  }
+
+  #botao-arquivo {
+    width: 10px;
+    margin: 6px;
+    cursor: pointer;
+  }
+
+  #botao-arquivo-imagem {
+    width: 15px;
+    filter: brightness(0) saturate(100%) invert(45%) sepia(80%) saturate(384%) hue-rotate(98deg) brightness(92%) contrast(90%);
+  }
+
+  #mensagem-log {
+    margin: 0 auto;
+    width: 10rem;
+    display: flex;
+    justify-content: center;
+    background-color: #e8f1e3;
+    color: #075e54;
+    font-size: smaller;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    padding: 7px 10px;
+    overflow-wrap: anywhere;
+  }
+
+  #msg-usuario {
+    display: flex;
+    justify-content: end;
+    background-color: #dcf8c6;
+    font-size: smaller;
+    margin-bottom: 6px;
+    border-radius: 8px 8px 0 8px;
+    padding: 8px 10px;
+    overflow-wrap: anywhere;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: 0;
+    text-align: right;
+    color: #075e54;
+    width: fit-content;
+    box-shadow: 0 1px 1px #ccc;
+  }
+  
+  #msg-outros {
+    color: #075e54;
+    display: flex;
+    justify-content: start;
+    background-color: #ffffff;
+    font-size: smaller;
+    margin-bottom: 6px;
+    border-radius: 8px 8px 8px 0;
+    padding: 8px 10px;
+    overflow-wrap: anywhere;
+    max-width: 500px;
+    margin-left: 0;
+    text-align: left;
+    width: fit-content;
+    box-shadow: 0 1px 1px #ccc;
+  }
+  #comandos{
+    position: absolute;
+    right: 5px;
+    top: 80px;
+  }
+  #comandos{
+    text-align: center;
+    font-size: 9px;
+    font-family: monospace;
+    color: #128c7e;
+    margin-top: 0;
+  }
