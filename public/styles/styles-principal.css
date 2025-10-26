@@ -194,11 +194,26 @@ body {
   
   }
   @media (max-width: 500px) {
+    #lateral {
+
+      display: none;
+    }
+    #chats {
+      display: none;
+    }
+  
+    main{
+      display:block;
+    }
+    #versoes{
+      display:none;
+    }
+    
     #mensagem {
       border: 1px solid #d9fdd3;
       height: 65vh;
       margin: 0 auto;
-      background-image: url("../public/assets/background.png");
+      background-image: url("../assets/background.png");
       background-color: rgb(218, 216, 216);
       background-repeat: repeat;
       background-size: contain;
