@@ -6,7 +6,12 @@ let input = document.getElementById("input-mensagem");
 let mensagem = document.getElementById("mensagem");
 const modalImagem = document.getElementById("modal-imagem");
 const imagemModal = document.getElementById("imagem-modal");
+let usuarioOnline = document.getElementById("usuario-online");
+let chats = document.getElementById("chats");
 
+chats.addEventListener("click", (event)=>{
+  console.log(event.target.classList.value ="chat-selecionado")
+})
 // pega o nome do usuario, se não tiver no localstarage
 if (localStorage.getItem("nomeDeUsuario")) {
   nome = localStorage.getItem("nomeDeUsuario");
@@ -29,22 +34,27 @@ inputUsuario.addEventListener("change", () => {
 });
 
 // conecta ao backend
-// const ws = new WebSocket("ws://localhost:8080") // testes
-let ws;
-if (document.location.pathname === "/submundo/") {
-  ws = new WebSocket("wss://mixed-babara-submundo-a8aa163c.koyeb.app/");
-  // const ws = new WebSocket("ws://localhost:8080") // testes
-} else {
-  ws = new WebSocket("wss://clear-maggy-chat-diogo-11b743c1.koyeb.app/");
-  // const ws = new WebSocket("ws://localhost:8080") // testes
-}
+const ws = new WebSocket("ws://localhost:8080") // testes
+// let ws;
+// if (document.location.pathname === "/submundo/") {
+//   ws = new WebSocket("wss://mixed-babara-submundo-a8aa163c.koyeb.app/");
+//   // const ws = new WebSocket("ws://localhost:8080") // testes
+// } else {
+//   ws = new WebSocket("wss://clear-maggy-chat-diogo-11b743c1.koyeb.app/");
+//   // const ws = new WebSocket("ws://localhost:8080") // testes
+// }
 
+// func pra enviar as coisas
+function enviar(msg) {
+  ws.send(`${nome}: ${msg}`);
+}
 // verifica conexão com servidor e se usuario entrou e saiu
 ws.onopen = () => {
   usuario.innerHTML = `<p><span style="font-family: monospace; font-size: 16px; color: red; ">servidor:</span> <b>${nome}</b>, você está <span style="color:green">conectado!</span>!</p>`;
 
   // ws.send("servidor: "+ nome + " está conectado!")
   ws.send(`${nome} entrou na sala!`);
+  
 
   // manda pings pro servidor pra manter a conexão por mais de 60 segundos
   setInterval(function () {
@@ -56,10 +66,6 @@ ws.onopen = () => {
 ws.onclose = () => {
   usuario.innerHTML = `<p><span style="font-family: monospace; font-size: 16px; color: red; ">servidor:</span> <b>${nome}</b>, você está <span style="color:red">desconectado! (reinicie a página)</span></p>`;
 };
-// func pra enviar as coisas
-function enviar(msg) {
-  ws.send(`${nome}: ${msg}`);
-}
 
 function ampliarImagem(img) {
   imagemModal.src = img.src;
@@ -147,6 +153,7 @@ ws.onmessage = (event) => {
       mensagem.innerHTML += `<div id="msg-usuario"> ${mensagemFiltrada}</div>`;
     } else if (msg.endsWith("sala!")) {
       mensagem.innerHTML += `<div id="mensagem-log"> ${msg}</div>`;
+      usuarioOnline.innerHTML += `<li>${msg.split(" ").slice(0,1)}</li>`; // o ideial é que o servidor me diga quem está online, assim isso sempre reflitirá em todos os usuarios. tbm deve dizer quem não está mais conectado. ou quem nao está enviando ping/recendo pong, caso houvesse implementação
     } else if (msg.includes("/limpar")) {
       mensagem.innerHTML += `<div id="mensagem-log">o admin limpou o chat</div>`;
     } else {

@@ -20,27 +20,29 @@ body {
     color: #128c7e;
     margin-top: 0;
   }
+  main {
+  display:grid;
+    grid-template-columns: 1fr 4fr 1fr;
+  }
 
   #usuario {
     margin: auto 10px;
   }
 
   #mensagem {
-    border: 1px solid #d9fdd3;
     height: 70vh;
     margin: 0 auto;
     background-color: #e6dedea6;
-    background-image: url("assets/background.png"); 
+    background-image: url("../public/assets/background.png"); 
     background-repeat: repeat;
     background-size: contain;
     background-position: center;
     max-width: 70vw;
-    border-radius: 8px;
     padding: 10px;
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: #25d366 #ffffff;
-    box-shadow: 0 0 8px #bdbdbd;
+    /* box-shadow: 0 0 8px #bdbdbd; */
   }
 
   #mensagem::-webkit-scrollbar {
@@ -174,17 +176,56 @@ body {
     margin-left: 0;
     text-align: left;
     width: fit-content;
-    box-shadow: 0 1px 1px #ccc;
   }
+
+  
   #comandos{
-    position: absolute;
-    right: 5px;
-    top: 80px;
+    text-align: start;
+    font-size: 9px;
+    font-family: monospace;
+    color: #128c7e;
+    margin-top: 7vh;
   }
-  #comandos{
-    text-align: center;
+  #comando li {
+    wrap: auto;
+  }
+
+  #online{
+    text-align: start;
     font-size: 9px;
     font-family: monospace;
     color: #128c7e;
     margin-top: 0;
   }
+  #chats{
+    margin-top: 50.4px;
+    gap:5px;
+    background-color:rgba(251, 251, 251, 0.65);
+    overflow-y: scroll;
+    height: 70vh;
+  scrollbar-width: thin;
+  scrollbar-color: #25d366 #ffffff;
+  /* box-shadow: 0 0 8px #bdbdbd; */
+}
+
+#chats::-webkit-scrollbar {
+  width: 3px;
+}
+#chats::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 5px;
+}
+#chats::-webkit-scrollbar-thumb {
+  background-color: #25d366;
+  border-radius: 5px;
+}
+  #chats div{
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid rgb(172, 183, 171);
+  }
+  .chat-selecionado {
+    background-color: #e6dedea6;
+   border-right: none !important;
+  }
+  

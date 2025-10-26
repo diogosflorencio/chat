@@ -11,28 +11,57 @@
 <body>
   <h1>Essa aplicação é um experimento com WebSocketServer</h1>
   <h3>(estou desenvolvendo. a interface e funcionalidades estão em constante melhorias)</h3>
-  <section>
-    <div id="usuario">
-      
+
+  <main> 
+    <section id="chats">
+  <div>Principal</div>
+  <div>Nada</div>
+  <div>Teste</div>
+  <div>Nada 2</div>
+  <div>Grupo Teste</div>
+  <div>Grupo Teste</div>
+  <div>Grupo Teste</div>
+  <div>Grupo Teste</div>
+  <div>Grupo Teste</div>
+  <div>Grupo Teste</div>
+  <div>Grupo Teste</div>
+  <div>Grupo Teste</div>
+  <div>Grupo Teste</div>
+  <div>Grupo Teste</div>
+  <div>Grupo Teste</div>
+</section>
+
+<section>
+  <div id="usuario">
+        
+  </div>
+    <div id="mensagem"></div>
+    
+    
+  </section>
+  
+  <section id="lateral">
+    
+    <div id="comandos">
+      <h3>comandos: </h3>
+      <ol type="">
+        <li>/imagem + link | para enviar imagens</li>
+        <li>/reset | excluir todas as msgs (admin)</li>
+        <li>/reload | reinicia o server (admin)</li>
+        <li>/excluir | apaga tds as suas msgs (n func)</li>
+      </ol>
+    </div>
+    
+    <div id="online">
+      <ul id="usuario-online">
+        <h3>Usuários Online: </h3>   
+        <small>(logica simples. n totalmente funcional)</small>
+        
+      </ul>
     </div>
   </section>
   
-  <section">
-  <div id="mensagem"></div>
-  <h1>EM MANUNTENÇÃO</h1>
-  
-  
-</section>
-<section id="comandos">
-  <ul>
-    <h3>comandos: </h3>
-    <li>/imagem + link - para enviar imagens</li>
-    <li>/limpar - excluir todas as mensagens</li>
-    
-  </ul>
-</section>
-
-
+</main>
 <div id="modal-imagem" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80vw; height: 80vh; background-color: rgba(0, 0, 0, 0.9); z-index: 9999; border-radius: 8px; cursor: pointer; padding: 20px; box-sizing: border-box;">
   <img id="imagem-modal" src="" alt="" style="max-width: 100%; max-height: 100%; width: 500%; object-fit: contain; display: block; margin: auto;">
 </div>
@@ -53,5 +82,14 @@
 
 
 
+<small style="font-size: 10px;">como as coisas estão mudando rapido, vc pode acessar outras versões aqui:
+  <ol>
+    <li><a href="">versão 1</a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+  </ol>
+</small>
 </body>
 </html>

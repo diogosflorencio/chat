@@ -190,18 +190,14 @@ body {
   filter: brightness(0) saturate(100%) invert(45%) sepia(80%) saturate(384%) hue-rotate(98deg) brightness(92%) contrast(90%);
 }
 
+/* versão submundo */
 #comandos{
-  position: absolute;
-  right: 5px;
-  top: 80px;
-}
-#comandos{
-  text-align: center;
-  font-size: 9px;
-  font-family: monospace;
   color: #128c7e;
-  margin-top: 0;
 }
+#online{
+  color: #128c7e;
+}
+
 @media (max-width: 1285px) {
   #comandos{
     font-size: 7px;
@@ -224,7 +220,7 @@ body {
   #mensagem {
     height: 65vh;
     margin: 0 auto;
-    background-image: url("/public/assets/background.png");
+    background-image: url("../public/assets/background.png");
     background-color: rgba(0, 0, 0, 0.856);
     background-repeat: repeat;
     background-size: contain;
