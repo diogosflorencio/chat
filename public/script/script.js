@@ -9,6 +9,8 @@ const imagemModal = document.getElementById("imagem-modal");
 let usuarioOnline = document.getElementById("usuario-online");
 let chats = document.getElementById("chats");
 
+
+if (chats) {
 chats.addEventListener("click", (event)=>{
   chats.childNodes.forEach(chat => {
     if(chat.nodeType === 1){
@@ -19,6 +21,7 @@ chats.addEventListener("click", (event)=>{
   })  
 
 })
+}
 // pega o nome do usuario, se não tiver no localstarage
 if (localStorage.getItem("nomeDeUsuario")) {
   nome = localStorage.getItem("nomeDeUsuario");

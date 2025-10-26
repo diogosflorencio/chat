@@ -38,12 +38,16 @@ body {
     background-size: contain;
     background-position: center;
     max-width: 70vw;
-    padding: 10px;
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: #25d366 #ffffff;
     box-sizing: border-box;
     /* box-shadow: 0 0 8px #bdbdbd; */
+    border-width: 1px 1px 1px 0px; /* topo, direita, baixo, esquerda */
+    border-style: solid;
+    border-color: rgb(172, 183, 171);
+
+
   }
 
   #mensagem::-webkit-scrollbar {
@@ -190,7 +194,7 @@ body {
   #comando li {
     wrap: auto;
   }
-
+  
   #online{
     text-align: start;
     font-size: 9px;
@@ -199,14 +203,15 @@ body {
     margin-top: 0;
   }
   #chats{
-    margin-top: 50.4px;
-    gap:5px;
+    margin-top: 50.9px;
     background-color:rgba(251, 251, 251, 0.65);
     overflow-y: scroll;
-    height: 70vh;
-  scrollbar-width: thin;
-  scrollbar-color: #25d366 #ffffff;
-  /* box-shadow: 0 0 8px #bdbdbd; */
+    height: 69.8vh;
+    scrollbar-width: none;
+    scrollbar-color: #25d366 #ffffff;
+    /* box-shadow: 0 0 8px #bdbdbd; */
+    border-bottom: 1px solid rgb(172, 183, 171);
+
 }
 
 #chats::-webkit-scrollbar {
@@ -223,8 +228,10 @@ body {
   #chats div{
     padding: 10px;
     cursor: pointer;
-    border: 1px solid rgb(172, 183, 171);
-  }
+    border-top: 1px solid rgb(172, 183, 171);
+    border-right: 1px solid rgb(172, 183, 171);
+    border-left: 1px solid rgb(172, 183, 171);
+      }
   .chat-selecionado {
     background-color: #e6dedea6;
    border-right: none !important;
