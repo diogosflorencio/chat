@@ -42,6 +42,7 @@ body {
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: #25d366 #ffffff;
+    box-sizing: border-box;
     /* box-shadow: 0 0 8px #bdbdbd; */
   }
 

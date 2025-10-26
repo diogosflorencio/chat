@@ -41,15 +41,15 @@ inputUsuario.addEventListener("change", () => {
 });
 
 // conecta ao backend
-const ws = new WebSocket("ws://localhost:8080") // testes
-// let ws;
-// if (document.location.pathname === "/submundo/") {
-//   ws = new WebSocket("wss://mixed-babara-submundo-a8aa163c.koyeb.app/");
-//   // const ws = new WebSocket("ws://localhost:8080") // testes
-// } else {
-//   ws = new WebSocket("wss://clear-maggy-chat-diogo-11b743c1.koyeb.app/");
-//   // const ws = new WebSocket("ws://localhost:8080") // testes
-// }
+// const ws = new WebSocket("ws://localhost:8080") // testes
+let ws;
+if (document.location.pathname === "/submundo/") {
+  ws = new WebSocket("wss://mixed-babara-submundo-a8aa163c.koyeb.app/");
+  // const ws = new WebSocket("ws://localhost:8080") // testes
+} else {
+  ws = new WebSocket("wss://clear-maggy-chat-diogo-11b743c1.koyeb.app/");
+  // const ws = new WebSocket("ws://localhost:8080") // testes
+}
 
 // func pra enviar as coisas
 function enviar(msg) {
