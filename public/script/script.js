@@ -8,20 +8,21 @@ const modalImagem = document.getElementById("modal-imagem");
 const imagemModal = document.getElementById("imagem-modal");
 let usuarioOnline = document.getElementById("usuario-online");
 let chats = document.getElementById("chats");
-
+let botaoArquivo = document.getElementById("botao-arquivo");
+let seletorImagem = document.getElementById("seletorImagem");
 
 if (chats) {
-chats.addEventListener("click", (event)=>{
-  chats.childNodes.forEach(chat => {
-    if(chat.nodeType === 1){
-      chat.classList.remove("chat-selecionado");
-
-    }
-    event.target.classList.add("chat-selecionado")
-  })  
-
-})
+  // faz verificação para que o submundo não sucumba, já que ele nãotem chats ainda
+  chats.addEventListener("click", (event) => {
+    chats.childNodes.forEach((chat) => {
+      if (chat.nodeType === 1) {
+        chat.classList.remove("chat-selecionado");
+      }
+      event.target.classList.add("chat-selecionado");
+    });
+  });
 }
+
 // pega o nome do usuario, se não tiver no localstarage
 if (localStorage.getItem("nomeDeUsuario")) {
   nome = localStorage.getItem("nomeDeUsuario");
@@ -45,6 +46,7 @@ inputUsuario.addEventListener("change", () => {
 
 // conecta ao backend
 // const ws = new WebSocket("ws://localhost:8080") // testes
+
 let ws;
 if (document.location.pathname === "/submundo/") {
   ws = new WebSocket("wss://mixed-babara-submundo-a8aa163c.koyeb.app/");
@@ -64,7 +66,6 @@ ws.onopen = () => {
 
   // ws.send("servidor: "+ nome + " está conectado!")
   ws.send(`${nome} entrou na sala!`);
-  
 
   // manda pings pro servidor pra manter a conexão por mais de 60 segundos
   setInterval(function () {
@@ -138,6 +139,19 @@ botao.addEventListener("click", () => {
   }
   input.value = "";
 });
+// envios de imagem do pc
+function trataImagem(event) {
+  const bufferImagem = event.target.files[0];
+  const leitor = new FileReader();
+
+  leitor.onload = (e) => {
+    const base64 = e.target.result;
+    enviar(`${base64}`);
+  };
+
+  leitor.readAsDataURL(bufferImagem);
+}
+seletorImagem.addEventListener("change", trataImagem);
 
 ws.onmessage = (event) => {
   const data = event.data; // texto recebido do servidor
@@ -158,12 +172,19 @@ ws.onmessage = (event) => {
 
   // Adiciona cada mensagem na tela
   mensagens.forEach((msg) => {
-    if (msg.startsWith(nome + ": ") && !msg.includes("/limpar")) {
+    if (msg.startsWith(nome + ": ") && msg.includes("data:image")) {
+      const base64 = msg.slice(nome.length + 2); // removo nome do usuario
+      mensagem.innerHTML += `<div id="msg-usuario"><img class="imagem-enviada" src="${base64}" alt="imagem enviada" style="width:200px"></div>`;
+    } else if (msg.includes("data:image")) {
+      const base64 = msg.split(" ").slice(-1); // removo info desnecessaria alem da base64
+      
+      mensagem.innerHTML += `<div id="msg-outros"><img class="imagem-enviada" src="${base64}" alt="imagem enviada" style="width:200px"></div>`;
+    } else if (msg.startsWith(nome + ": ") && !msg.includes("/limpar")) {
       mensagemFiltrada = msg.slice(nome.length + 2); // fiz um fateamento pra parar de exibir o nome de usuario de quem ta enviando pq é desnecessario
       mensagem.innerHTML += `<div id="msg-usuario"> ${mensagemFiltrada}</div>`;
     } else if (msg.endsWith("sala!")) {
       mensagem.innerHTML += `<div id="mensagem-log"> ${msg}</div>`;
-      usuarioOnline.innerHTML += `<li>${msg.split(" ").slice(0,1)}</li>`; // o ideial é que o servidor me diga quem está online, assim isso sempre reflitirá em todos os usuarios. tbm deve dizer quem não está mais conectado. ou quem nao está enviando ping/recendo pong, caso houvesse implementação
+      usuarioOnline.innerHTML += `<li>${msg.split(" ").slice(0, 1)}</li>`; // o ideial é que o servidor me diga quem está online, assim isso sempre reflitirá em todos os usuarios. tbm deve dizer quem não está mais conectado. ou quem nao está enviando ping/recendo pong, caso houvesse implementação
     } else if (msg.includes("/limpar")) {
       mensagem.innerHTML += `<div id="mensagem-log">o admin limpou o chat</div>`;
     } else {
