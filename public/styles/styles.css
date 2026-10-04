@@ -7,10 +7,10 @@ body {
 
   h1 {
     text-align: center;
-    font-size: 25px;
+    font-size: 20px;
     font-family: monospace;
     color: #075e54;
-    margin-bottom: 5px;
+    margin: -1px;
   }
 
   h3 {
@@ -39,14 +39,16 @@ body {
     background-position: center;
     width: 78vw;
     overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: #25d366 #ffffff;
+    scrollbar-width: none;
+    scrollbar-color:rgba(36, 207, 99, 0.73) #ffffff;
     box-sizing: border-box;
-    box-shadow: inset 0px 0px 25px rgb(92, 92, 92);
+    box-shadow: inset 0px 0px 30px rgba(44, 39, 90, 0.68);
     border-width: 1px 1px 1px 1px; /* topo, direita, baixo, esquerda */
     border-style: solid;
     border-color: rgb(172, 183, 171);
     padding-bottom: 44px;
+    border-radius: 3px;
+    
     
 
 
@@ -81,7 +83,7 @@ body {
     padding: 10px;
     gap: 2px;
     position: fixed;
-    bottom: 15px;
+    bottom: 35px;
     width: 100%;
     z-index: 1000;
     max-height: 32px;
@@ -189,9 +191,10 @@ body {
     padding: 8px 10px;
     overflow-wrap: anywhere;
     max-width: 500px;
-    margin-left: 0;
+    margin-left: 5px;
     text-align: left;
     width: fit-content;
+
   }
 
   
