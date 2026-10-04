@@ -30,28 +30,30 @@ body {
   }
 
   #mensagem {
-    height: 70vh;
+    height: 85vh;
     margin: 0 auto;
     background-color: #e6dedea6;
-    background-image: url("../public/assets/background.png"); 
+    background-image: url("../assets/background.png"); 
     background-repeat: repeat;
     background-size: contain;
     background-position: center;
-    max-width: 70vw;
+    width: 78vw;
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: #25d366 #ffffff;
     box-sizing: border-box;
-    /* box-shadow: 0 0 8px #bdbdbd; */
-    border-width: 1px 1px 1px 0px; /* topo, direita, baixo, esquerda */
+    box-shadow: inset 0px 0px 25px rgb(92, 92, 92);
+    border-width: 1px 1px 1px 1px; /* topo, direita, baixo, esquerda */
     border-style: solid;
     border-color: rgb(172, 183, 171);
+    padding-bottom: 44px;
+    
 
 
   }
 
   #mensagem::-webkit-scrollbar {
-    width: 3px;
+    width: 1px;
   }
   #mensagem::-webkit-scrollbar-track {
     background: #ffffff;
@@ -70,6 +72,7 @@ body {
     padding: 7px 10px;
     overflow-wrap: anywhere;
     background-color: #dcf8c6;
+    
   }
 
   #inputs {
@@ -77,6 +80,11 @@ body {
     justify-content: center;
     padding: 10px;
     gap: 2px;
+    position: fixed;
+    bottom: 15px;
+    width: 100%;
+    z-index: 1000;
+    max-height: 32px;
   }
 
   #input-usuario {
@@ -151,6 +159,7 @@ body {
 
   #msg-usuario {
     display: flex;
+    
     justify-content: end;
     background-color: #dcf8c6;
     font-size: smaller;
@@ -160,11 +169,13 @@ body {
     overflow-wrap: anywhere;
     max-width: 500px;
     margin-left: auto;
-    margin-right: 0;
+    margin-right: 5px;
     text-align: right;
     color: #075e54;
     width: fit-content;
     box-shadow: 0 1px 1px #ccc;
+    text-align: left;
+    flex-direction: column;
   }
   
   #msg-outros {

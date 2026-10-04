@@ -6,7 +6,7 @@
   <link rel="shortcut icon" href="assets/icone.png" type="image/x-icon">
   <title>Escrevo!</title>
   <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="styles/styles-principal.css">
+  <!-- <link rel="stylesheet" href="styles/styles-principal.css"> -->
 </head>
 <body>
   <h1>Essa aplicação é um experimento com WebSocketServer</h1>
@@ -14,7 +14,7 @@
 
   <main> 
     
-    <section id="chats">
+    <!-- <section id="chats">
   <div>Os grupos</div>
   <div>Ou chats privados</div>
   <div>Ainda não</div>
@@ -36,7 +36,17 @@
   <div>Outros</div>
   <div>Outros</div>
   <div>Outros</div>
+</section> -->
+<section>
+  <div id="online">
+    <ul id="usuario-online">
+      <h3>Usuários Online: </h3>   
+      <small>(logica simples. n totalmente funcional)</small>
+      
+    </ul>
+  </div>
 </section>
+
 
 <section id="principal">
   <div id="usuario">
@@ -49,7 +59,7 @@
   
   <section id="lateral">
     
-    <div id="comandos">
+    <!-- <div id="comandos">
       <h3>comandos: </h3>
       <ol type="">
         <li>/imagem + link | para enviar imagens</li>
@@ -57,15 +67,9 @@
         <li>/reload | reinicia o server (admin)</li>
         <li>/excluir | apaga tds as suas msgs (n func)</li>
       </ol>
-    </div>
+    </div> -->
     
-    <div id="online">
-      <ul id="usuario-online">
-        <h3>Usuários Online: </h3>   
-        <small>(logica simples. n totalmente funcional)</small>
-        
-      </ul>
-    </div>
+ 
   </section>
   
 </main>
@@ -76,7 +80,7 @@
 <section id="inputs">
   
   
-  <input placeholder="@Usuario" ="text" id="input-usuario" maxlength="20">
+  <input placeholder="@Usuario" ="text" id="input-usuario" value="anonimo" maxlength="20">
   
   <input type="text" id="input-mensagem" maxlength="1000" >
   

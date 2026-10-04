@@ -27,7 +27,7 @@ if (chats) {
 if (localStorage.getItem("nomeDeUsuario")) {
   nome = localStorage.getItem("nomeDeUsuario");
 } else {
-  const nomesUsuarios = [""];
+  const nomesUsuarios = ["anonimo"];
 
   let numeroUsuario = Math.round(Math.random() * 18);
   nome = window.prompt("Digite seu nome: ", `${nomesUsuarios[numeroUsuario]}`);
@@ -94,11 +94,11 @@ modalImagem.addEventListener("click", () => {
   imagemModal.src = "";
 });
 
-let agora = new Date();
-let hora = agora.getHours().toString().padStart(2, "0");
-let minutos = agora.getMinutes().toString().padStart(2, "0");
+// let agora = new Date();
+// let hora = agora.getHours().toString().padStart(2, "0");
+// let minutos = agora.getMinutes().toString().padStart(2, "0");
 
-let tempoHTML = `<span style="font-size: 9px; color: #075e54; vertical-align: baseline; align-self:end; margin-left: 4px;">${hora}:${minutos}</span>`;
+// let tempoHTML = `<span style="font-size: 9px; color: #075e54; vertical-align: baseline; align-self:end; margin-left: 4px;">${hora}:${minutos}</span>`;
 
 input.addEventListener("keydown", (evento) => {
   if (evento.key === "Enter") {
@@ -112,6 +112,11 @@ input.addEventListener("keydown", (evento) => {
       } else if (texto.includes("/limpar")) {
         enviar(`${texto}`);
       } else {
+        let agora = new Date();
+        let hora = agora.getHours().toString().padStart(2, "0");
+        let minutos = agora.getMinutes().toString().padStart(2, "0");
+
+        let tempoHTML = `<span style="font-size: 9px; color: #075e54; vertical-align: baseline; align-self:end; margin-left: 4px;">${hora}:${minutos}</span>`;
         enviar(`${texto} ${tempoHTML}`);
       }
     } else {

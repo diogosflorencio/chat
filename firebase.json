@@ -9,12 +9,8 @@
     ],
     "rewrites": [
       {
-        "source": "/submundo",
-        "destination": "/submundo/index.html"
-      },
-      {
-        "source": "/submundo/**",
-        "destination": "/submundo/index.html"
+        "source": "*",
+        "destination": "/index.html"
       }
     ]
   }
