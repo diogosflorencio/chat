@@ -3,66 +3,180 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="assets/icone.png" type="image/x-icon">
-  <title>Escrevo no submundo!</title>
-    <link rel="stylesheet" href="../styles/styles.css">
-    <link rel="stylesheet" href="../styles/styles-submundo.css">
+  <title>// SUBMUNDO //</title>
+  <link rel="shortcut icon" href="/assets/icone.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/styles-submundo.css">
 </head>
 <body>
-  <h1>Essa aplicação é um experimento com WebSocketServer</h1>
-  <h3>(estou desenvolvendo. a interface e funcionalidades estão em constante melhorias)</h3>
-  <main> 
-    <section></section>
-    
-    <section>
-      <div id="usuario">
-        
+
+  <canvas id="noise-bg"></canvas>
+  <div id="crt-lines"></div>
+
+  <!-- ═══ TELA DE AUTH ═══ -->
+  <div id="auth-screen">
+    <div id="auth-box">
+      <div id="auth-logo">
+        <span class="logo-slash">//</span> SUBMUNDO <span class="logo-slash">//</span>
       </div>
-      <div id="mensagem"></div>
-      <!-- <h1>EM MANUNTENÇÃO</h1> -->
-      
-    </section>
-    
-    <section id="lateral">
-      
-      <div id="comandos">
-        <h3>comandos: </h3>
-        <ol type="">
-          <li>/imagem + link | para enviar imagens</li>
-          <li>/reset | excluir todas as msgs (admin)</li>
-          <li>/reload | reinicia o server (admin)</li>
-          <li>/excluir | apaga tds as suas msgs (n func)</li>
-        </ol>
+      <p id="auth-sub">canal encriptado · acesso restrito</p>
+
+      <div id="auth-tabs">
+        <button class="auth-tab active" data-tab="login">ENTRAR</button>
+        <button class="auth-tab" data-tab="register">CRIAR CONTA</button>
       </div>
-      
-      <div id="online">
-        <ul id="usuario-online">
-          <h3>Usuários Online: </h3>   
-          <small>(logica simples. n totalmente funcional)</small>
-          
-        </ul>
+
+      <div id="tab-login" class="auth-form active">
+        <div class="field-wrap">
+          <label>EMAIL</label>
+          <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
+        </div>
+        <div class="field-wrap">
+          <label>SENHA</label>
+          <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button class="auth-btn" id="btn-login"><span id="btn-login-txt">► ENTRAR</span></button>
+        <div class="auth-error" id="login-error"></div>
       </div>
-    </section>
-    
-  </main>
-  
-  <div id="modal-imagem" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80vw; height: 80vh; background-color: rgba(0, 0, 0, 0.9); z-index: 9999; border-radius: 8px; cursor: pointer; padding: 20px; box-sizing: border-box;">
-    <img id="imagem-modal" src="" alt="" style="max-width: 100%; max-height: 100%; width: 500%; object-fit: contain; display: block; margin: auto;">
+
+      <div id="tab-register" class="auth-form">
+        <div class="field-wrap">
+          <label>USERNAME</label>
+          <input type="text" id="reg-username" placeholder="@seu_nome" maxlength="30" spellcheck="false">
+        </div>
+        <div class="field-wrap">
+          <label>EMAIL</label>
+          <input type="email" id="reg-email" placeholder="seu@email.com">
+        </div>
+        <div class="field-wrap">
+          <label>SENHA <small>(mín. 6 chars)</small></label>
+          <input type="password" id="reg-password" placeholder="••••••••">
+        </div>
+        <button class="auth-btn" id="btn-register"><span id="btn-register-txt">► CRIAR CONTA</span></button>
+        <div class="auth-error" id="register-error"></div>
+        <div class="auth-success" id="register-ok" style="display:none">✓ Conta criada! Verifique seu email.</div>
+      </div>
+    </div>
   </div>
 
-<section id="inputs">
-  
-    
-  <input placeholder="@Usuario" ="text" id="input-usuario" maxlength="20">
-  
-  <input type="text" id="input-mensagem" maxlength="1000" >
-  
-  <button id="botao-enviar">➔</button>
-  
-  <input type="file" id="seletorImagem" accept="image/*" style="display: none;">
-  <div id="botao-arquivo"><img id="botao-arquivo-imagem" src="assets/image.png" alt=""></div>
-</section>
+  <!-- ═══ APP PRINCIPAL ═══ -->
+  <div id="app" style="display:none">
 
-<script src="../script/script.js"></script> 
+    <header id="topbar">
+      <span id="topbar-logo">⬡ SUBMUNDO</span>
+      <div id="topbar-center">
+        <span id="topbar-chat-icon"></span>
+        <span id="topbar-chat-name">selecione um canal</span>
+      </div>
+      <div id="topbar-right">
+        <div id="topbar-user-avatar"></div>
+        <span id="topbar-user"></span>
+        <button id="btn-logout" title="Sair">⏻</button>
+      </div>
+    </header>
+
+    <div id="layout">
+
+      <!-- Sidebar esquerda -->
+      <nav id="sidebar-left">
+        <div class="sidebar-section">
+          <div class="section-header">
+            <span>► GRUPOS</span>
+            <button id="btn-create-group" title="Criar grupo" aria-label="Criar grupo">＋</button>
+          </div>
+          <ul id="list-groups"></ul>
+        </div>
+        <div class="sidebar-section">
+          <div class="section-header">◈ DIRETAS</div>
+          <ul id="list-dms">
+            <li class="sidebar-hint">clique em um usuário online →</li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Chat -->
+      <main id="chat-main">
+        <div id="messages-area" role="log" aria-live="polite"></div>
+
+        <div id="upload-progress" style="display:none">
+          <div id="upload-bar"></div>
+          <span id="upload-label">verificando conteúdo...</span>
+        </div>
+
+        <form id="input-bar" autocomplete="off">
+          <div id="file-preview" style="display:none">
+            <div id="file-preview-thumb"></div>
+            <span id="file-preview-name"></span>
+            <button type="button" id="btn-cancel-file">✕</button>
+          </div>
+          <div id="input-row">
+            <label id="btn-attach" title="Anexar arquivo">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+              </svg>
+              <input type="file" id="file-input" accept="image/*,audio/*,video/*,.pdf,.txt,.zip,.rar" style="display:none">
+            </label>
+            <input type="text" id="message-input" placeholder="_ mensagem" maxlength="2000" spellcheck="true" aria-label="Mensagem">
+            <button type="submit" id="btn-send" title="Enviar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </main>
+
+      <!-- Sidebar direita -->
+      <aside id="sidebar-right">
+        <div class="sidebar-section">
+          <div class="section-header">
+            <span>◉ ONLINE</span>
+            <span id="online-count" class="count-badge">0</span>
+          </div>
+          <ul id="list-online"></ul>
+        </div>
+        <div class="sidebar-section" id="members-section" style="display:none">
+          <div class="section-header">◈ MEMBROS</div>
+          <ul id="list-members"></ul>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- Modal imagem -->
+  <div id="image-modal" role="dialog" aria-modal="true" style="display:none">
+    <img id="image-modal-img" src="" alt="Imagem">
+    <button id="image-modal-close">✕</button>
+    <a id="image-modal-download" download target="_blank" title="Baixar">↓</a>
+  </div>
+
+  <!-- Modal criar grupo -->
+  <div id="group-modal" role="dialog" aria-modal="true" style="display:none">
+    <div id="group-modal-box">
+      <div class="modal-title">► CRIAR GRUPO</div>
+      <div class="field-wrap">
+        <label>NOME</label>
+        <input type="text" id="group-name-input" placeholder="ex: caos, filosofia..." maxlength="40">
+      </div>
+      <div class="field-wrap">
+        <label>DESCRIÇÃO <small>(opcional)</small></label>
+        <input type="text" id="group-desc-input" placeholder="sobre o que é?" maxlength="200">
+      </div>
+      <div class="modal-actions">
+        <button id="btn-confirm-group" class="auth-btn">► CRIAR</button>
+        <button id="btn-cancel-group" class="btn-ghost">CANCELAR</button>
+      </div>
+      <div class="auth-error" id="group-error"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" role="alert" aria-live="assertive"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>  <script src="/config/env.js"></script>
+  <script type="module" src="/script/submundo-app.js"></script>
 </body>
 </html>
